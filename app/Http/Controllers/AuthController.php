@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Traits\HttpResponses;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -17,7 +18,9 @@ class AuthController extends Controller
 
     public function register(StoreUserRequest $request)
     {
-        return response()->json('This is register');
+        $validated = $request->validated();
+
+        return $validated;
     }
 
     public function logout()
