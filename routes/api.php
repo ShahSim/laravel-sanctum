@@ -27,3 +27,4 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::apiResource('tasks', TaskController::class);
+
