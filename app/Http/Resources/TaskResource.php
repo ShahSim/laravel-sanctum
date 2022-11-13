@@ -14,8 +14,6 @@ class TaskResource extends JsonResource
      */
     public function toArray($request)
     {
-        //$request->id = (string)$request->id;
-
         // return parent::toArray($request);
 
         $this->id = (string)$this->id;
