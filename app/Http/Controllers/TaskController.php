@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+    use HttpResponses;
+
     /**
      * Instantiate a new controller instance.
      *
@@ -35,9 +39,18 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        //
+        $request->validated($request->all());
+
+        $task = Task::create([
+            'user_id' => Auth::user()->id,
+            'name' => $request->name,
+            'description' => $request->description,
+            'priority' => $request->priority,
+        ]);
+
+        return $this->success(new TaskResource($task), null, 201);
     }
 
     /**
@@ -48,7 +61,11 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        if (Auth::user()->id != $task->user_id) {
+            return $this->error(null, "Unauthorized", 401);
+        }
+
+        return $this->success(new TaskResource($task));
     }
 
     /**
@@ -60,7 +77,13 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        if (Auth::user()->id != $task->user_id) {
+            return $this->error(null, "Unauthorized", 401);
+        }
+
+        $task->update($request->all());
+
+        return $this->success(new TaskResource($task), 'Task updated');
     }
 
     /**
@@ -71,6 +94,10 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        if (Auth::user()->id != $task->user_id) {
+            return $this->error(null, "Unauthorized", 401);
+        }
+
+        return $task->delete() ? $this->success(null, 'Task deleted', 200) : $this->error(null, 'Enternal server error', 500);
     }
 }

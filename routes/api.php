@@ -26,4 +26,4 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('logout', 'logout');
 });
 
-Route::apiResource('tasks', TaskController::class);
+Route::apiResource('tasks', TaskController::class)->missing(fn () => response()->json(['message' => 'Not found'], 404));

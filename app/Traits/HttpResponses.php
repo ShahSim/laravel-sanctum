@@ -9,22 +9,19 @@ trait HttpResponses
 {
     protected function success($data, $message = null, $code = 200)
     {
-         return response()->json([
+        return response()->json([
             'status' => 'Request successfull',
             'message' => $message,
             'data' => $data
-         ], $code);
+        ], $code);
     }
 
-    protected function error($data, $message = null, $code)
+    protected function error($data = null, $message = null, $code)
     {
-         return response()->json([
+        return response()->json([
             'status' => 'Eoor has occured',
             'message' => $message,
             'data' => $data
-         ], $code);
+        ], $code);
     }
-
-
 }
-

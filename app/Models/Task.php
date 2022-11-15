@@ -16,6 +16,10 @@ class Task extends Model
         'priority'
     ];
 
+    protected $hidden = [
+        'user_id'
+    ];
+
     /**
      * Get the user that owns the Task
      *
