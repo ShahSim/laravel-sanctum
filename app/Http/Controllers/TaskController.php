@@ -61,11 +61,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        if (Auth::user()->id != $task->user_id) {
-            return $this->error(null, "Unauthorized", 401);
-        }
-
-        return $this->success(new TaskResource($task));
+        return  $this->notAuthorized($task) ? $this->unauthorized() : $this->success(new TaskResource($task));
     }
 
     /**
@@ -77,9 +73,7 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        if (Auth::user()->id != $task->user_id) {
-            return $this->error(null, "Unauthorized", 401);
-        }
+        if ($this->notAuthorized($task)) { return $this->unauthorized(); }
 
         $task->update($request->all());
 
@@ -94,10 +88,18 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        if (Auth::user()->id != $task->user_id) {
-            return $this->error(null, "Unauthorized", 401);
-        }
+        if ($this->notAuthorized($task)) { return $this->unauthorized(); }
 
         return $task->delete() ? $this->success(null, 'Task deleted', 200) : $this->error(null, 'Enternal server error', 500);
+    }
+
+    /**
+     * Check action permission for task
+     *
+     * @param \App\Models\Task  $task
+     */
+    private function notAuthorized(Task $task)
+    {
+        return (Auth::user()->id != $task->user_id) ? true : false;
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 /**
- *
+ * Trait for Http responses
  */
 trait HttpResponses
 {
@@ -23,5 +23,10 @@ trait HttpResponses
             'message' => $message,
             'data' => $data
         ], $code);
+    }
+
+    protected function unauthorized()
+    {
+        return $this->error(null, 'Action unauthorized', 401);
     }
 }
