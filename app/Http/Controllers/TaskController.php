@@ -62,10 +62,6 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         return  Auth::user()->cannot('view', $task) ? $this->unauthorized() : $this->success(new TaskResource($task));
-
-        $this->authorize('view', $task);
-
-        return $this->success(new TaskResource($task));
     }
 
     /**
