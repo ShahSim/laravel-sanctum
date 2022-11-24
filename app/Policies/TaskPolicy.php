@@ -28,7 +28,7 @@ class TaskPolicy
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Task $task)
+    public function view(User $user, Task $task):bool
     {
         return $user->id == $task->user_id;
     }
@@ -51,9 +51,9 @@ class TaskPolicy
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Task $task)
+    public function update(User $user, Task $task):bool
     {
-        //
+        return $user->id == $task->user_id;
     }
 
     /**
@@ -63,9 +63,9 @@ class TaskPolicy
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Task $task)
+    public function delete(User $user, Task $task):bool
     {
-        //
+        return $user->id == $task->user_id;
     }
 
     /**

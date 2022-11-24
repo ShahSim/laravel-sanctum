@@ -30,7 +30,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return TaskResource::collection(Task::where('user_id', Auth::user()->id)->get());
+        //return TaskResource::collection(Auth::user()->tasks->where('id','>',150));
+        return Auth::user()->tasks()->where('id','>',150)->count();
     }
 
     /**
