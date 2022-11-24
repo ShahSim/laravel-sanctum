@@ -95,7 +95,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Check action permission for task
+     * Check if user has permission for for the task
      *
      * @param \App\Models\Task  $task
      */
