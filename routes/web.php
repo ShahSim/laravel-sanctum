@@ -19,11 +19,11 @@ Route::get('/', function () {
     //return view('welcome');
     $user = User::find(1);
 
-    $user->tasks()->create([
-        'name' => 'task',
-        'description' => 'd',
-        'priority' => 'low'
-    ]);
+    // $user->tasks()->create([
+    //     'name' => 'task',
+    //     'description' => 'd',
+    //     'priority' => 'low'
+    // ]);
 
     return response()->json($user);
 });
