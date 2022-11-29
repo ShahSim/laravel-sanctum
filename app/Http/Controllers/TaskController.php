@@ -8,7 +8,6 @@ use App\Models\Task;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
@@ -32,8 +31,6 @@ class TaskController extends Controller
     public function index()
     {
         return TaskResource::collection(Auth::user()->tasks);
-        // return Auth::user()->tokens()->delete();
-        // return DB::table('personal_access_tokens')->truncate();
     }
 
     /**
