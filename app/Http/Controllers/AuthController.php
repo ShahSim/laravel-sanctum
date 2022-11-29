@@ -31,6 +31,10 @@ class AuthController extends Controller
     {
         $request->validated($request->all());
 
+        $user = User::where('email', $request->email)->first();
+
+        if ($user && $user->tokens->count() > 0) { $user->tokens()->delete(); }
+
         if (!Auth::attempt($request->only(['email', 'password']))) {
             return $this->error(null, 'Credentials don\'t match', 401);
         }
@@ -39,7 +43,7 @@ class AuthController extends Controller
 
         return $this->success([
             'user' => $user,
-            'token' => $user->createToken("API Token of {$user->name}")->plainTextToken
+            'token' => $user->createToken("API Token of {$user->email}")->plainTextToken
         ]);
     }
 
@@ -64,7 +68,8 @@ class AuthController extends Controller
     }
 
     /**
-     *
+     * Delete current sanctum token to log out
+     * @return json response
      */
     public function logout()
     {
