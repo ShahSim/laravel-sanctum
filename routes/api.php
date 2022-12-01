@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\TaskController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TaskController;
+use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +29,8 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::apiResource('tasks', TaskController::class)->missing(fn () => response()->json(['message' => 'Not found'], 404));
+
+Route::get('/', function(){
+    $roles = Role::whereIn('name', ['user','admin'])->get();
+    User::find(2)->assignRole($roles);
+});
